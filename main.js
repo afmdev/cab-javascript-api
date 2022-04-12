@@ -35,53 +35,66 @@
 
 
 
+window.onload = function(){
 
+    let url = "https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52"
+    // let url = "https://jsonplaceholder.typicode.com/users"
+    fetch(url) // API Url
+        // fetch("./archivo.json")
+        .then(res => res.json()) // convert data from the api to a json file
+        .then(data => showMyData(data.hits))  //function mostrar data de json
+        // .catch(error => console.log(error))
 
-let url = "https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52"
-// let url = "https://jsonplaceholder.typicode.com/users"
-fetch(url) // API Url
-    // fetch("./archivo.json")
-    .then(res => res.json()) // convert data from the api to a json file
-    .then(data => showMyData(data.hits))  //function mostrar data de json
-    .catch(error => console.log(error))
-
-const showMyData = (data) => {
-    console.log(data)
-    
-    for (let i = 0; i < data.length; i++) {  
-        console.log("Num "+i);
+    const showMyData = (data) => {
+        console.log(data)
+        
+        for (let i = 0; i < data.length; i++) {  
+            // console.log("Num "+i);
+            
+            
+            let items = document.getElementById("items");
+        
+            let container = document.createElement("div")
+            container.id = "element-" +i; //unique id for each element
+            container.className = "col-sm-6 col-lg-4 mb-4"; //add bootstrap classnames
         
         
-        let items = document.getElementById("items");
-    
-        let container = document.createElement("div")
-        container.id = "element-" +i; //unique id for each element
-        container.className = "col-sm-6 col-lg-4 mb-4"; //add bootstrap classnames
-    
-    
-        let card = document.createElement("div")
-        card.className = "card"; //add class 
-        card.id = "card-" +i;
-        card.innerHTML = "<img src='" + data[i].largeImageURL + "' alt='test' 'width ='100px'/>";
-    
-        // All in one line
-        // card.innerHTML = "<img src='" + data[i].largeImageURL + "' alt='test' 'width ='100px'/><div class='card-body'><h5 class='card-title'>"+ data[i].user+"</h5><p class='card-text'>"+ data[i].user+"</p></div>";
+            let card = document.createElement("div")
+            card.className = "card"; //add class 
+            card.id = "card-" +i;
+            // card.innerHTML = "<button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal'></button><img src='" + data[i].largeImageURL + "' alt='test' width=100px'/></a>";
+            card.innerHTML = "<a href='#exampleModal' data-bs-toggle='modal' data-bs-target='#exampleModal'><img src='" + data[i].largeImageURL + "' alt='test' width='100%'/></a>";
+            // card.innerHTML = "<img src='" + data[i].largeImageURL + "' alt='test'/>";
         
-        let title = document.createElement("title")
-        title.innerHTML = data[i].user;
+            // All in one line
+            // card.innerHTML = "<img src='" + data[i].largeImageURL + "' alt='test' 'width ='100px'/><div class='card-body'><h5 class='card-title'>"+ data[i].user+"</h5><p class='card-text'>"+ data[i].user+"</p></div>";
+            
+            let title = document.createElement("title")
+            title.innerHTML = data[i].user;
+            
         
-    
-        let cardBody = document.createElement("div")
-        cardBody.className = "card-body"; //add class
-        cardBody.innerHTML = "<h5 class='card-title'>"+ data[i].user+"</h5><p class='card-text'>"+ data[i].user+"</p>"
-    
-    
-        items.appendChild(container)
-        document.getElementById("element-"+i).appendChild(card)
-        document.getElementById("card-"+i).appendChild(title)
-        document.getElementById("card-"+i).appendChild(cardBody)
+            let cardBody = document.createElement("div")
+            cardBody.className = "card-body"; //add class
+            cardBody.innerHTML = "<h5 class='card-title'>Username: "+ data[i].user+"</h5><p class='card-text'>Likes: "+ data[i].likes+"</p>"
+        
+        
+            items.appendChild(container)
+            document.getElementById("element-"+i).appendChild(card)
+            document.getElementById("card-"+i).appendChild(title)
+            document.getElementById("card-"+i).appendChild(cardBody)
+        }
 
+        let myModal = document.getElementById("myModal");
+        let myModalObj = document.createElement("p");
 
+        for (let i = 0; i < data.length; i++) { 
+            document.getElementById("card-"+i).addEventListener('click', function(){
+                myModalObj.className = "fotoenmodal";
+                myModalObj.innerHTML = "<img src='" + data[i].largeImageURL + "' alt='test' width='100%'/>";
+                // myModalObj.innerHTML = "Name user: " + data[i].user;
+                myModal.appendChild(myModalObj)
+            })
+        }
     }
 }
 
