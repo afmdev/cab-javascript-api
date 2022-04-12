@@ -1,5 +1,3 @@
-
-
 // let myButton = document.getElementsByClassName("hide");
 // let myButtonLength = document.getElementsByClassName("hide").length;
 // console.log(myButton);
@@ -37,50 +35,55 @@
 
 
 
-// fetch("https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52")
-// fetch("https://reqres.in/api/users", { 
-//     method: "POST",
-//     headers: {
-//         "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify ({
-//         name: "User-1"
-//     })
-// })
-// // .then(res => console.log(res))
-// .then(res => {
-//     if (res.ok) {
-//         console.log("TODO OKAY") 
-//         return res.json()
-//     } else {
-//         console.log("ERROR")
-//     }
-// })
-// .then(data => console.log(data))
-// .catch(error => console.log("ERROR"))
 
 
+let url = "https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52"
+// let url = "https://jsonplaceholder.typicode.com/users"
+fetch(url) // API Url
+    // fetch("./archivo.json")
+    .then(res => res.json()) // convert data from the api to a json file
+    .then(data => showMyData(data.hits))  //function mostrar data de json
+    .catch(error => console.log(error))
 
-fetch("https://pixabay.com/api/?key=26639219-c988cadef2f5d334da840ad52")
-fetch("./archivo.json")
-.then(res => res.json())
-.then(data => console.log(data))
+const showMyData = (data) => {
+    console.log(data)
+    
+    for (let i = 0; i < data.length; i++) {  
+        console.log("Num "+i);
+        
+        
+        let items = document.getElementById("items");
+    
+        let container = document.createElement("div")
+        container.id = "element-" +i; //unique id for each element
+        container.className = "col-sm-6 col-lg-4 mb-4"; //add bootstrap classnames
+    
+    
+        let card = document.createElement("div")
+        card.className = "card"; //add class 
+        card.id = "card-" +i;
+        card.innerHTML = "<img src='" + data[i].largeImageURL + "' alt='test' 'width ='100px'/>";
+    
+        // All in one line
+        // card.innerHTML = "<img src='" + data[i].largeImageURL + "' alt='test' 'width ='100px'/><div class='card-body'><h5 class='card-title'>"+ data[i].user+"</h5><p class='card-text'>"+ data[i].user+"</p></div>";
+        
+        let title = document.createElement("title")
+        title.innerHTML = data[i].user;
+        
+    
+        let cardBody = document.createElement("div")
+        cardBody.className = "card-body"; //add class
+        cardBody.innerHTML = "<h5 class='card-title'>"+ data[i].user+"</h5><p class='card-text'>"+ data[i].user+"</p>"
+    
+    
+        items.appendChild(container)
+        document.getElementById("element-"+i).appendChild(card)
+        document.getElementById("card-"+i).appendChild(title)
+        document.getElementById("card-"+i).appendChild(cardBody)
 
 
-
-
-// fetch('https://pokeapi.co/api/v2/pokemon/1')
-// .then(response => response.json())
-// .then(data => console.log(data))
-// .then(data => {
-//     let element = document.getElementById("items") 
-//     element.innerHTML = '<p>${data.name}</p>';
-
-
-//     console.log(data)
-// })
-// .catch(error => console.log(error))
-
+    }
+}
 
 
 
